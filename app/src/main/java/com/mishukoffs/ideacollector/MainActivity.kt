@@ -11,16 +11,20 @@ import com.mishukoffs.ideacollector.model.IdeaStatus
 import java.time.LocalDate
 
 class MainActivity : ComponentActivity() {
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun onStart() {
+        super.onStart()
         val list: List<IdeaModel> =
             listOf(
                 IdeaModel(title = "Idea 1", createdDate = LocalDate.of(2022, 11, 2), status = IdeaStatus.red),
                 IdeaModel(title = "Idea 2", createdDate = LocalDate.of(2023, 4, 9), status = IdeaStatus.yellow),
-                IdeaModel(title = "Idea 3", createdDate =LocalDate.of(2024, 2, 29), status = IdeaStatus.green)
+                IdeaModel(title = "Idea 3", createdDate = LocalDate.of(2024, 2, 29), status = IdeaStatus.green)
             )
-        setContentView(R.layout.activity_main)
 
         val customAdapter = CustomAdapter(list)
         val recyclerView: RecyclerView = findViewById(R.id.recycler_view)
