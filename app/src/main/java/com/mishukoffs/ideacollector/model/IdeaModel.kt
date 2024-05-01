@@ -1,6 +1,6 @@
 package com.mishukoffs.ideacollector.model
 
-import java.time.LocalDate
+import java.util.Date
 
 enum class IdeaStatus{
     red,
@@ -8,4 +8,4 @@ enum class IdeaStatus{
     green,
 }
 
-data class IdeaModel(val title: String, var createdDate: LocalDate, val status: IdeaStatus) {}
+data class IdeaModel(val title: String, var createdDate: Date, val status: IdeaStatus) {}
