@@ -1,14 +1,11 @@
 package com.mishukoffs.ideacollector
 
-import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mishukoffs.ideacollector.model.IdeaModel
 import com.mishukoffs.ideacollector.model.IdeaStatus
-import java.time.LocalDate
 import java.util.Calendar
 import java.util.Date
 
@@ -23,9 +20,9 @@ class MainActivity : ComponentActivity() {
         super.onResume()
         val list: List<IdeaModel> =
             listOf(
-                IdeaModel(title = "Idea 1", createdDate = getDate(2022, 11, 2), status = IdeaStatus.red),
-                IdeaModel(title = "Idea 2", createdDate = getDate(2023, 4, 9), status = IdeaStatus.yellow),
-                IdeaModel(title = "Idea 3", createdDate = getDate(2024, 2, 29), status = IdeaStatus.green)
+                IdeaModel(title = "Idea 1", createdDate = getDate(2022, 11, 2), status = IdeaStatus.HIGH),
+                IdeaModel(title = "Idea 2", createdDate = getDate(2023, 4, 9), status = IdeaStatus.MEDIUM),
+                IdeaModel(title = "Idea 3", createdDate = getDate(2024, 2, 29), status = IdeaStatus.LOW)
             )
         val customAdapter = CustomAdapter(list)
         val recyclerView: RecyclerView = findViewById(R.id.recycler_view)

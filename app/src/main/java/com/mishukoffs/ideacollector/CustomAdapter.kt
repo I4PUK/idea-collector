@@ -32,8 +32,9 @@ class CustomAdapter(private val dataSet: List<IdeaModel>) :
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        viewHolder.ideaDate.text  = dataSet[position].createdDate.toString()
+        viewHolder.ideaDate.text = dataSet[position].createdDate.toString()
         viewHolder.ideaTitle.text = dataSet[position].title
+        viewHolder.ideaIcon.setImageResource(dataSet[position].getDrawableFromStatus())
     }
 
     override fun getItemCount() = dataSet.size
