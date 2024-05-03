@@ -1,6 +1,8 @@
 package com.mishukoffs.ideacollector
 
 import android.os.Bundle
+import android.widget.ImageButton
+import android.widget.TextView
 import androidx.activity.ComponentActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,18 +20,56 @@ class MainActivity : ComponentActivity() {
 
     override fun onResume() {
         super.onResume()
-        val list: List<IdeaModel> =
-            listOf(
-                IdeaModel(title = "Idea 1", createdDate = getDate(2022, 11, 2), status = IdeaStatus.HIGH),
-                IdeaModel(title = "Idea 2", createdDate = getDate(2023, 4, 9), status = IdeaStatus.MEDIUM),
-                IdeaModel(title = "Idea 3", createdDate = getDate(2024, 2, 29), status = IdeaStatus.LOW)
+        val list: MutableList<IdeaModel> =
+            mutableListOf(
+                IdeaModel(
+                    title = "Idea 1",
+                    createdDate = getDate(2022, 11, 2),
+                    status = IdeaStatus.HIGH
+                ),
+                IdeaModel(
+                    title = "Idea 2",
+                    createdDate = getDate(2023, 4, 9),
+                    status = IdeaStatus.MEDIUM
+                ),
+                IdeaModel(
+                    title = "Idea 3",
+                    createdDate = getDate(2024, 2, 29),
+                    status = IdeaStatus.LOW
+                )
             )
+
         val customAdapter = CustomAdapter(list)
         val recyclerView: RecyclerView = findViewById(R.id.recycler_view)
+        val ideaTextView: TextView = findViewById(R.id.idea_text_field)
+        val addIdeaButton: ImageButton = findViewById(R.id.add_idea_button)
 
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = GridLayoutManager(this, 1)
         recyclerView.adapter = customAdapter
+
+        addIdeaButton.setOnClickListener {
+            val ideaTextField: String = ideaTextView.text.toString()
+            if (ideaTextField.trim().isNotEmpty()) {
+                list.add(
+                    IdeaModel(
+                        title = ideaTextField,
+                        status = IdeaStatus.MEDIUM,
+                        createdDate = getNowDate()
+                    )
+                )
+
+                ideaTextView.text = ""
+                ideaTextView.clearFocus()
+
+                customAdapter.notifyDataSetChanged()
+            }
+        }
+    }
+
+    fun getNowDate(): Date {
+        val instance = Calendar.getInstance()
+        return instance.time
     }
 
     fun getDate(year: Int, month: Int, date: Int): Date {
