@@ -8,7 +8,6 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.Spinner
-import android.widget.SpinnerAdapter
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
@@ -53,8 +52,13 @@ class IdeaListFragment : Fragment() {
                     status = IdeaStatus.LOW
                 )
             )
-
+        val ideaStatusValues = IdeaStatus.entries.toTypedArray()
         val customAdapter = CustomAdapter(list)
+        val spinnerAdapter = ArrayAdapter(
+            view.context, android.R.layout.simple_spinner_dropdown_item,
+            ideaStatusValues
+        )
+
         val recyclerView: RecyclerView = view.findViewById(R.id.recycler_view)
         val ideaTextView: TextView = view.findViewById(R.id.idea_text_field)
         val addIdeaButton: ImageButton = view.findViewById(R.id.add_idea_button)
@@ -65,12 +69,8 @@ class IdeaListFragment : Fragment() {
         recyclerView.layoutManager = GridLayoutManager(context, 1)
         recyclerView.adapter = customAdapter
 
-        statusesList.adapter = context?.let {
-            ArrayAdapter<SpinnerAdapter>(
-                it,
-                android.R.layout.simple_spinner_dropdown_item,
-            )
-        }
+        statusesList.adapter = spinnerAdapter
+
 
         settingsButton.setOnClickListener {
             val fragment = SettingsFragment()
