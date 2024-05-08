@@ -12,6 +12,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.mishukoffs.ideacollector.databinding.FragmentIdeaListBinding
 import com.mishukoffs.ideacollector.model.IdeaModel
 import com.mishukoffs.ideacollector.model.IdeaStatus
 import java.util.Calendar
@@ -28,11 +29,15 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class IdeaListFragment : Fragment() {
+    private var _binding: FragmentIdeaListBinding? = null
+    private val binding get() = _binding!!
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.fragment_idea_list, container, false)
+    ): View {
+        _binding = FragmentIdeaListBinding.inflate(inflater, container, false)
+        val view = binding.root
 
         val list: MutableList<IdeaModel> =
             mutableListOf(
@@ -59,11 +64,11 @@ class IdeaListFragment : Fragment() {
             ideaStatusValues
         )
 
-        val recyclerView: RecyclerView = view.findViewById(R.id.recycler_view)
-        val ideaTextView: TextView = view.findViewById(R.id.idea_text_field)
-        val addIdeaButton: ImageButton = view.findViewById(R.id.add_idea_button)
-        val settingsButton: Button = view.findViewById(R.id.settings_button)
-        val statusesList: Spinner = view.findViewById(R.id.status_dropdown)
+        val recyclerView: RecyclerView = binding.recyclerView
+        val ideaTextView: TextView = binding.ideaTextField
+        val addIdeaButton: ImageButton = binding.addIdeaButton
+        val settingsButton: Button = binding.settingsButton
+        val statusesList: Spinner = binding.statusDropdown
 
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = GridLayoutManager(context, 1)
@@ -99,6 +104,11 @@ class IdeaListFragment : Fragment() {
             }
         }
         return view
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 
