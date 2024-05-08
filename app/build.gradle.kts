@@ -66,6 +66,7 @@ dependencies {
     implementation(libs.androidx.cardview)
     implementation(libs.material)
     implementation(libs.androidx.preference)
+    implementation(libs.koin.android)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
