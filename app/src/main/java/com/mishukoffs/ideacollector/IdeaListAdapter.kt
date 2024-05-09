@@ -9,8 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mishukoffs.ideacollector.model.IdeaModel
 
 
-class CustomAdapter(private val dataSet: List<IdeaModel>) :
-    RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
+class IdeaListAdapter(private val dataSet: MutableList<IdeaModel>) :
+    RecyclerView.Adapter<IdeaListAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val ideaTitle: TextView

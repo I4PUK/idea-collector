@@ -1,6 +1,6 @@
 package com.mishukoffs.ideacollector.model
 
-enum class IdeaStatus{
+enum class IdeaPriority{
     HIGH,
     MEDIUM,
     LOW,

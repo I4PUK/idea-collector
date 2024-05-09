@@ -2,6 +2,7 @@ package com.mishukoffs.ideacollector
 
 import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
+import com.mishukoffs.ideacollector.idea_list.IdeaListFragment
 
 
 class MainActivity : FragmentActivity() {
