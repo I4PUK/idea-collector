@@ -28,14 +28,14 @@ class IdeaListViewModel : ViewModel() {
     )
 
     private val _selectedPriority = MutableStateFlow(IdeaPriority.MEDIUM)
-    private val _list = MutableStateFlow<MutableList<IdeaModel>>(initialListValue)
+    private val _list = MutableStateFlow(initialListValue)
     var list
         get() = _list.value
         set(value) {
             _list.value = value
         }
 
-    private var _ideaText = MutableStateFlow<String>("")
+    private var _ideaText = MutableStateFlow("")
     val ideaText: StateFlow<String>
         get() = _ideaText
 
@@ -44,6 +44,7 @@ class IdeaListViewModel : ViewModel() {
     }
 
     val selectedPriority get() = _selectedPriority
+
     fun updatePriority(newPriority: IdeaPriority) {
         _selectedPriority.value = newPriority
     }
