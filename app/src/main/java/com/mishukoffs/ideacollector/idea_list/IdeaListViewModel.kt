@@ -49,15 +49,14 @@ class IdeaListViewModel : ViewModel() {
         _selectedPriority.value = newPriority
     }
 
-    fun addIdea() {
+    fun addIdea(text: String) {
         _list.value.add(
             IdeaModel(
-                title = _ideaText.value,
+                title = text,
                 status = _selectedPriority.value,
                 createdDate = getNowDate()
             )
         )
-        setNewIdeaText("")
     }
 
     private fun getNowDate(): Date {

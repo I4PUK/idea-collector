@@ -1,8 +1,6 @@
 package com.mishukoffs.ideacollector.idea_list
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,8 +8,10 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import com.mishukoffs.ideacollector.IdeaListAdapter
+import com.mishukoffs.ideacollector.ItemListDiffIdeaCallback
 import com.mishukoffs.ideacollector.R
 import com.mishukoffs.ideacollector.SettingsFragment
 import com.mishukoffs.ideacollector.databinding.FragmentIdeaListBinding
@@ -59,21 +59,21 @@ class IdeaListFragment : Fragment() {
             }
         }
 
-        binding.ideaTextField.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-            override fun afterTextChanged(editable: Editable?) {
-                val text = editable.toString()
-                viewModel.setNewIdeaText(text)
-            }
-        })
-
         binding.addIdeaButton.setOnClickListener {
-            val ideaTextField: String = binding.ideaTextField.text.toString()
-            if (ideaTextField.trim().isNotEmpty()) {
-                viewModel.addIdea()
+            val ideaText: String = binding.ideaTextField.text.toString()
+            if (ideaText.trim().isNotEmpty()) {
+                val oldDataset = viewModel.list
+
+                viewModel.addIdea(ideaText)
                 binding.ideaTextField.clearFocus()
-                ideaListAdapter.notifyDataSetChanged()
+                binding.ideaTextField.text.clear()
+
+                val newDataset = viewModel.list
+                val ideaListDiff = ItemListDiffIdeaCallback(oldDataset, newDataset)
+                val diffResult = DiffUtil.calculateDiff(ideaListDiff, true)
+
+
+                diffResult.dispatchUpdatesTo(ideaListAdapter)
             }
         }
 
