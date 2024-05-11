@@ -8,14 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.ImageButton
-import android.widget.Spinner
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.mishukoffs.ideacollector.IdeaListAdapter
 import com.mishukoffs.ideacollector.R
 import com.mishukoffs.ideacollector.SettingsFragment
@@ -34,66 +29,55 @@ class IdeaListFragment : Fragment() {
     ): View {
         _binding = FragmentIdeaListBinding.inflate(inflater, container, false)
 
-        val view = binding.root
-
-        val ideaPriorities = IdeaPriority.entries.toTypedArray()
-
         val ideaListAdapter = IdeaListAdapter(viewModel.list)
+
         val spinnerAdapter = ArrayAdapter(
-            view.context,
+            binding.root.context,
             android.R.layout.simple_spinner_dropdown_item,
-            ideaPriorities
+            IdeaPriority.entries.toTypedArray<IdeaPriority>()
         )
 
-        val recyclerView: RecyclerView = binding.recyclerView
-        val ideaTextView: TextView = binding.ideaTextField
-        val addIdeaButton: ImageButton = binding.addIdeaButton
-        val settingsButton: Button = binding.settingsButton
-        val prioritiesList: Spinner = binding.priorityDropdown
-
-        recyclerView.setHasFixedSize(true)
-
-        recyclerView.layoutManager = GridLayoutManager(context, 1)
-        recyclerView.adapter = ideaListAdapter
-
-        prioritiesList.adapter = spinnerAdapter
-
-
-        prioritiesList.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>,
-                view: View,
-                position: Int,
-                id: Long
-            ) {
-                viewModel.updatePriority(IdeaPriority.entries[position])
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>) {}
+        binding.recyclerView.apply {
+            setHasFixedSize(true)
+            layoutManager = GridLayoutManager(context, 1)
+            adapter = ideaListAdapter
         }
 
-        ideaTextView.addTextChangedListener(object : TextWatcher {
+        binding.priorityDropdown.apply {
+            adapter = spinnerAdapter
+            onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>,
+                    view: View,
+                    position: Int,
+                    id: Long
+                ) {
+                    viewModel.updatePriority(IdeaPriority.entries[position])
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>) {}
+            }
+        }
+
+        binding.ideaTextField.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-
             override fun afterTextChanged(editable: Editable?) {
                 val text = editable.toString()
                 viewModel.setNewIdeaText(text)
             }
         })
 
-        addIdeaButton.setOnClickListener {
-            val ideaTextField: String = ideaTextView.text.toString()
+        binding.addIdeaButton.setOnClickListener {
+            val ideaTextField: String = binding.ideaTextField.text.toString()
             if (ideaTextField.trim().isNotEmpty()) {
                 viewModel.addIdea()
-                ideaTextView.clearFocus()
-
+                binding.ideaTextField.clearFocus()
                 ideaListAdapter.notifyDataSetChanged()
             }
         }
 
-        settingsButton.setOnClickListener {
+        binding.settingsButton.setOnClickListener {
             val fragment = SettingsFragment()
             val transaction = requireActivity().supportFragmentManager.beginTransaction()
             transaction.replace(R.id.frame_layout, fragment)
@@ -101,7 +85,7 @@ class IdeaListFragment : Fragment() {
             transaction.commit()
         }
 
-        return view
+        return binding.root
     }
 
     override fun onDestroyView() {
