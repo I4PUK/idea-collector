@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import com.mishukoffs.ideacollector.model.IdeaModel
 import com.mishukoffs.ideacollector.model.IdeaPriority
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import java.util.Calendar
 import java.util.Date
 
@@ -13,17 +12,17 @@ class IdeaListViewModel : ViewModel() {
         IdeaModel(
             title = "Idea 1",
             createdDate = getDate(2022, 11, 2),
-            status = IdeaPriority.HIGH
+            priority = IdeaPriority.HIGH
         ),
         IdeaModel(
             title = "Idea 2",
             createdDate = getDate(2023, 4, 9),
-            status = IdeaPriority.MEDIUM
+            priority = IdeaPriority.MEDIUM
         ),
         IdeaModel(
             title = "Idea 3",
             createdDate = getDate(2024, 2, 29),
-            status = IdeaPriority.LOW
+            priority = IdeaPriority.LOW
         )
     )
 
@@ -35,14 +34,6 @@ class IdeaListViewModel : ViewModel() {
             _list.value = value
         }
 
-    private var _ideaText = MutableStateFlow("")
-    val ideaText: StateFlow<String>
-        get() = _ideaText
-
-    fun setNewIdeaText(value: String) {
-        _ideaText.value = value
-    }
-
     val selectedPriority get() = _selectedPriority
 
     fun updatePriority(newPriority: IdeaPriority) {
@@ -53,7 +44,7 @@ class IdeaListViewModel : ViewModel() {
         _list.value.add(
             IdeaModel(
                 title = text,
-                status = _selectedPriority.value,
+                priority = _selectedPriority.value,
                 createdDate = getNowDate()
             )
         )

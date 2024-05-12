@@ -22,7 +22,7 @@ class ItemListDiffIdeaCallback(private val oldList: List<IdeaModel>, private val
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
         val oldIdea = oldList[oldItemPosition]
         val newIdea = newList[newItemPosition]
-        return (oldIdea.title == newIdea.title && oldIdea.status == newIdea.status)
+        return (oldIdea.title == newIdea.title && oldIdea.priority == newIdea.priority)
     }
 
 }

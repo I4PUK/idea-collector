@@ -34,7 +34,7 @@ class IdeaListAdapter(private val dataSet: MutableList<IdeaModel>) :
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         viewHolder.ideaDate.text = dataSet[position].createdDate.toString()
         viewHolder.ideaTitle.text = dataSet[position].title
-        viewHolder.ideaIcon.setImageResource(dataSet[position].getDrawableFromStatus())
+        viewHolder.ideaIcon.setImageResource(dataSet[position].getDrawableFromPriority())
     }
 
     override fun getItemCount() = dataSet.size
