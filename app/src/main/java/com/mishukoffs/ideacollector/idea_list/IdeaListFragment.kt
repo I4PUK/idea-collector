@@ -62,7 +62,7 @@ class IdeaListFragment : Fragment() {
         binding.addIdeaButton.setOnClickListener {
             val ideaText: String = binding.ideaTextField.text.toString()
             if (ideaText.trim().isNotEmpty()) {
-                val oldDataset = viewModel.list
+                val oldDataset = viewModel.list.toList()
 
                 viewModel.addIdea(ideaText)
                 binding.ideaTextField.clearFocus()
