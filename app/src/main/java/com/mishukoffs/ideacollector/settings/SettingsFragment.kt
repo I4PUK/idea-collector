@@ -1,7 +1,8 @@
-package com.mishukoffs.ideacollector
+package com.mishukoffs.ideacollector.settings
 
 import android.os.Bundle
 import androidx.preference.PreferenceFragmentCompat
+import com.mishukoffs.ideacollector.R
 
 class SettingsFragment : PreferenceFragmentCompat() {
 

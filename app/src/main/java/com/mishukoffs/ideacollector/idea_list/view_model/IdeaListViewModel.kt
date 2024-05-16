@@ -1,30 +1,38 @@
-package com.mishukoffs.ideacollector.idea_list
+package com.mishukoffs.ideacollector.idea_list.view_model
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.mishukoffs.ideacollector.model.IdeaModel
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
+import com.mishukoffs.ideacollector.database.IdeaEntity
 import com.mishukoffs.ideacollector.model.IdeaPriority
+import com.mishukoffs.ideacollector.repository.IdeaRepository
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.launch
 import java.util.Calendar
 import java.util.Date
 
-class IdeaListViewModel : ViewModel() {
+class IdeaListViewModel(val repository: IdeaRepository) : ViewModel() {
     private val initialListValue = mutableListOf(
-        IdeaModel(
-            title = "Idea 1",
+        IdeaEntity(
+            id = 1,
+            text = "Idea 1",
             createdDate = getDate(2022, 11, 2),
             priority = IdeaPriority.HIGH
-        ),
-        IdeaModel(
-            title = "Idea 2",
-            createdDate = getDate(2023, 4, 9),
-            priority = IdeaPriority.MEDIUM
-        ),
-        IdeaModel(
-            title = "Idea 3",
-            createdDate = getDate(2024, 2, 29),
-            priority = IdeaPriority.LOW
         )
     )
+
+    val allIdeas: LiveData<List<IdeaEntity>> = repository.allIdeas.asLiveData()
+
+    fun insert(text: String) = viewModelScope.launch {
+        val newIdea = IdeaEntity(
+            id = 0,
+            text = text,
+            priority = _selectedPriority.value,
+            createdDate = getNowDate()
+        )
+        repository.insert(newIdea)
+    }
 
     private val _selectedPriority = MutableStateFlow(IdeaPriority.MEDIUM)
     private val _list = MutableStateFlow(initialListValue)
@@ -40,16 +48,6 @@ class IdeaListViewModel : ViewModel() {
         _selectedPriority.value = newPriority
     }
 
-    fun addIdea(text: String) {
-        _list.value.add(
-            IdeaModel(
-                title = text,
-                priority = _selectedPriority.value,
-                createdDate = getNowDate()
-            )
-        )
-    }
-
     private fun getNowDate(): Date {
         val instance = Calendar.getInstance()
         return instance.time
@@ -61,3 +59,4 @@ class IdeaListViewModel : ViewModel() {
         return instance.time
     }
 }
+
