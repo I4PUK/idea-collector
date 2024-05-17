@@ -20,9 +20,12 @@ class MainActivity : FragmentActivity() {
 
     override fun onResume() {
         super.onResume()
+
         val frameLayout = R.id.frame_layout
 
+        println(ideaListViewModel.toString())
+
         supportFragmentManager.beginTransaction()
-            .replace(R.id.frame_layout, IdeaListFragment()).commit()
+            .replace(frameLayout, IdeaListFragment()).commit()
     }
 }

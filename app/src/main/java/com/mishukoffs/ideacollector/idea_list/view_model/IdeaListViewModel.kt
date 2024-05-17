@@ -17,7 +17,7 @@ class IdeaListViewModel(val repository: IdeaRepository) : ViewModel() {
         IdeaEntity(
             id = 1,
             text = "Idea 1",
-            createdDate = getDate(2022, 11, 2),
+            createdDate = getDate(2022, 11, 2).toString(),
             priority = IdeaPriority.HIGH
         )
     )
@@ -29,7 +29,7 @@ class IdeaListViewModel(val repository: IdeaRepository) : ViewModel() {
             id = 0,
             text = text,
             priority = _selectedPriority.value,
-            createdDate = getNowDate()
+            createdDate = getNowDate().toString()
         )
         repository.insert(newIdea)
     }
@@ -41,8 +41,6 @@ class IdeaListViewModel(val repository: IdeaRepository) : ViewModel() {
         set(value) {
             _list.value = value
         }
-
-    val selectedPriority get() = _selectedPriority
 
     fun updatePriority(newPriority: IdeaPriority) {
         _selectedPriority.value = newPriority

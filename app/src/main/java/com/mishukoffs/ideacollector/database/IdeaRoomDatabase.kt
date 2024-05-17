@@ -9,8 +9,8 @@ import com.mishukoffs.ideacollector.database.dao.IdeaDao
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-@Database(entities = arrayOf(IdeaEntity::class), version = 1, exportSchema = false)
-public abstract class IdeaRoomDatabase : RoomDatabase() {
+@Database(entities = [IdeaEntity::class], version = 1, exportSchema = false)
+abstract class IdeaRoomDatabase : RoomDatabase() {
 
     abstract fun ideaDao(): IdeaDao
 
